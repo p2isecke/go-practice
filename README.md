@@ -14,7 +14,7 @@
   * http://localhost:8000/pkg 
 
 ### Go Modules
-More information: https://golang.org/doc/modules/gomod-ref
+More info: https://golang.org/doc/modules/gomod-ref
 To use **modules**:
 1. Select a directory outside of `GOPATH`. This is your new project root.
 3. `go.mod` file generated containing:
@@ -35,6 +35,7 @@ To use **modules**:
   * Go source files can only have one package per directory
 * `main` package  with `main` function
 * Consider adding examples in the `_test.go` file. This is preferred over including examples in READMEs since they are compiled and tested.
+  * Run `go test -v` to see the output.
 
 ### Functions
 * Function names:
@@ -44,7 +45,12 @@ To use **modules**:
   * When you have more than one argument of the same type you can shorten
     * Example: (x int, y int) --> (x, y int)
   * Named return values are included in documentation. More info: https://github.com/golang/go/wiki/CodeReviewComments#named-result-parameters
-* 
+
+### Initializing Variables
+* More info: https://gobyexample.com/variables 
+* Declare and initialize variable: `:=`
+* Declare only: `var <name> <type`
+* Add and assign: `+=`
 
 ### Testing
 * Filename: `xxx_test.go`
@@ -53,4 +59,8 @@ To use **modules**:
   * To use `t *testing.T`, `import "testing"`
   * `t` of type `*testing.T` hooks into the testing framework
 * Use subtests to group tests around the same thing
+
+### Benchmarking
+* Measures how long code takes to execute by running it b.N times
+* By default, benchmarks are run **sequentially**
 

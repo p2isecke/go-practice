@@ -15,7 +15,7 @@ func TestAdder(t *testing.T) {
 	}
 }
 
-// By specifying //OutputL 6, it causes the function to be compiled and executed from test context
+// By specifying //Output: 6, it causes the function to be compiled and executed from test context when run with go test -v
 func ExampleAdd(){
 	sum := Add(1,5)
 	fmt.Println(sum)
