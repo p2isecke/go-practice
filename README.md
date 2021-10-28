@@ -32,7 +32,19 @@ To use **modules**:
    
 ## Code Structure/Best Practices
 * Packages group related `go` code together
+  * Go source files can only have one package per directory
 * `main` package  with `main` function
+* Consider adding examples in the `_test.go` file. This is preferred over including examples in READMEs since they are compiled and tested.
+
+### Functions
+* Function names:
+  * Public functions start with **capital letter**
+  * Private functions start with **lowercase letter**
+* Function signatures
+  * When you have more than one argument of the same type you can shorten
+    * Example: (x int, y int) --> (x, y int)
+  * Named return values are included in documentation. More info: https://github.com/golang/go/wiki/CodeReviewComments#named-result-parameters
+* 
 
 ### Testing
 * Filename: `xxx_test.go`
