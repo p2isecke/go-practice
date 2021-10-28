@@ -35,6 +35,9 @@
 * Consider adding examples in the `_test.go` file. This is preferred over including examples in READMEs since they are compiled and tested.
   * Run `go test -v` to see the output.
 * Formatting: https://pkg.go.dev/fmt
+* Starts with **lowercase** --> Private and not accessible outside the package it's defined in
+* When you call a function or a method the arguments are copied.
+* `var` lets you define values global to the package
 
 ### Functions
 * Function names:
@@ -73,6 +76,8 @@
 * Let's you bundle related data together
 * More info: https://golang.org/ref/spec#Interface_types
 * Anonymous struct: declare a slice of structs using []struct with fields
+* Struct pointers are automatically derefenced so you don't have to do `(*r)`
+  * More info: https://golang.org/ref/spec#Method_values
 
 ### Interfaces
 * Allows you to define functions that can be used with different types
@@ -80,7 +85,30 @@
 * Interface resolution is _implicit_. If the type you pass in matches what the interface is asking for, it will compile.
 * By declaring an interface, the helper is decoupled from the concrete types and only has the method it needs to do its job.
 * Hides complexity from other parts of the system
+* Can be nilable
+  * If you try to access a value that is nil, it will through a `runtime panic`
 
+### Types
+* Go lets you create new types from existing ones:
+  * `type MyName OriginalType`
+* You can declare methods on these new types
+
+### Error Handling
+* Return an error from your function so that other code can do something with it
+* `errors.New("message")` creates a new error with any message
+* You can use a tool called errcheck (`go get -u github.com/kisielk/errcheck`) to make sure that all errors are handled
+* Don't just check for errors, handle them: https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
+
+### Pointers
+* Memory address (pointer): `&variableName`
+* Pass by reference
+* Go copies the values when you pass them to functions/methods
+  * If you need to change state you'll need to pass a pointer to the thing you want to change
+* When you pass a pointer to a function, you're passing the address
+  * You can't change the original unless you pass the pointer
+* When you don't pass a pointer, you pass a copy
+* Can be `nil`
+  * Be sure to check if it's nil to avoid runtime exceptions
 
 ### Initializing Variables
 * More info: https://gobyexample.com/variables 
