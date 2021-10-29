@@ -40,6 +40,53 @@
 * `var` lets you define values global to the package
 * Constants are like variables but can't be modified after declaration
 
+### Dependency Injection
+* Allows you to control where your data is written by injecting a dependency
+* Enables:
+  * Testing, especially if dependencies are tightly coupled with some code, e.g database connection pool
+  * Decoupling where data goes from how to generate it, e.g. function generates data and writes to a db
+  * Reusability in other contexts
+
+Example: [fmt.Printf:](https://pkg.go.dev/fmt#Printf) [source code](https://cs.opensource.google/go/go/+/refs/tags/go1.17.2:src/fmt/print.go;l=212)
+```
+// Printf formats according to a format specifier and writes to standard output.
+// It returns the number of bytes written and any write error encountered.
+func Printf(format string, a ...interface{}) (n int, err error) {
+    // Printf calls Fprintf with os.Stdout as an arg
+    // Fprintf expects an io.Writer as a first argument. Here we pass in os.Stdout
+    // Writer is an interface
+    // Therefore os.Stdout implements io.Writer
+	return Fprintf(os.Stdout, format, a...)
+}
+```
+[Fprintf:](https://cs.opensource.google/go/go/+/refs/tags/go1.17.2:src/fmt/print.go;drc=refs%2Ftags%2Fgo1.17.2;l=202)
+```
+// Fprintf formats according to a format specifier and writes to w.
+// It returns the number of bytes written and any write error encountered.
+func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error) {
+	p := newPrinter()
+	p.doPrintf(format, a)
+	n, err = w.Write(p.buf)
+	p.free()
+	return
+}
+```
+[io.Writer:](https://cs.opensource.google/go/go/+/master:src/io/io.go;l=96?q=io.Writer&ss=go%2Fgo)
+```
+// Writer is the interface that wraps the basic Write method.
+//
+// Write writes len(p) bytes from p to the underlying data stream.
+// It returns the number of bytes written from p (0 <= n <= len(p))
+// and any error encountered that caused the write to stop early.
+// Write must return a non-nil error if it returns n < len(p).
+// Write must not modify the slice data, even temporarily.
+//
+// Implementations must not retain p.
+type Writer interface {
+	Write(p []byte) (n int, err error)
+}
+```
+
 ### Functions
 * Function names:
   * Public functions start with **capital letter**
@@ -166,4 +213,3 @@
 ### Benchmarking
 * Measures how long code takes to execute by running it b.N times
 * By default, benchmarks are run **sequentially**
-
