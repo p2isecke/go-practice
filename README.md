@@ -38,6 +38,7 @@
 * Starts with **lowercase** --> Private and not accessible outside the package it's defined in
 * When you call a function or a method the arguments are copied.
 * `var` lets you define values global to the package
+* Constants are like variables but can't be modified after declaration
 
 ### Functions
 * Function names:
@@ -98,6 +99,8 @@
 * `errors.New("message")` creates a new error with any message
 * You can use a tool called errcheck (`go get -u github.com/kisielk/errcheck`) to make sure that all errors are handled
 * Don't just check for errors, handle them: https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully
+* Errors can be converted to a string with `.Error()`
+* Constant errors: https://dave.cheney.net/2016/04/07/constant-errors
 
 ### Pointers
 * Memory address (pointer): `&variableName`
@@ -130,6 +133,23 @@
 * You can get a portion of slices: slice[low:high] 
   * `[1:]`: from 1 to the end
 * Make copies of slices before modifying it
+
+### Maps
+* Store values using a key
+* `map[keyType]valueTYpe`
+* Keys can only be a comparable type
+  * More info: https://golang.org/ref/spec#Comparison_operators
+* Values can be of any type, including another map
+* 2 return values: 1.the lookup value and 2. a boolean indicating if it was found
+* You can modify maps without passing an address
+* When you pass a map to a function/method, you're copying it, but just the pointer, not the underlying data structure
+* Can be `nil`; haves like an empty map when reading
+* Writing to a `nil` map will cause runtime panic
+* **Never** initialize an empty map variable: `var m map[string]string`
+  * Instead create an empty hash map and point to it:
+    * `var m = make(map[string]string` or
+    * `var m = map[string]string{}`
+* Does not throw an error if the value exists; it overwrites it
 
 ### Testing
 * Filename: `xxx_test.go`
